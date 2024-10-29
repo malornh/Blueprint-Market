@@ -135,7 +135,7 @@ ul {
 .pad {
     display: grid; /* Change to grid layout */
     grid-template-columns: repeat(4, 1fr); /* Create 4 equal columns */
-    background-color: rgba(238, 240, 255, 0.6);
+    background-color: rgba(238, 240, 255, 0.0);
     height: 87vh;
     width: 92%;
     border-radius: 10px;
@@ -158,7 +158,7 @@ ul {
     }
 
     .pad::-webkit-scrollbar-thumb {
-        background-color: #c8d0fc; /* Thumb color */
+        background-color: rgba(0, 0, 0, 0); /* Thumb color */
         border-radius: 4px; /* Rounded corners */
     }
 
