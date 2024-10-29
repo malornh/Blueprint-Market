@@ -1,0 +1,25 @@
+﻿@page "/browse-projects"
+@inject ProjectService ProjectService
+
+@code {
+    private List<ProjectService> projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = ProjectService.GetProjects();
+    }
+}
+
+
+<div class="pad"> 
+    @foreach (var project in projects)
+    {
+       <ProjectCard 
+        Name="@project.Name"
+        Description ="@project.Description"
+        Image="@project.Image"
+        Price="@project.Price"
+        />
+    }
+</div>
+

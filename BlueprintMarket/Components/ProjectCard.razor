@@ -1,0 +1,60 @@
+﻿@code{
+    [Parameter]
+    public string Name {get; set;}
+    [Parameter]
+    public string Description { get; set; }
+    [Parameter]
+    public string Image { get; set; }
+    [Parameter]
+    public decimal Price { get; set; }
+}
+
+<div>
+   @*  <h2>@Name</h2>
+    <img class="project-image" src="@Image" alt="Project Image" />
+    <p>@Description</p> *@
+
+    <div class="card-container">
+        <div class="card">
+            <h3>@Name</h3><br>
+            <img class="project-image" src="@Image" alt="Project Image" />
+            <p>@Description</p>
+            <p class="price">@Price лв.</p>
+            <div class="layers">
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>@Name</h3><br>
+            <img class="project-image" src="@Image" alt="Project Image" />
+            <p>@Description</p>
+            <p class="price">@Price лв.</p>
+            <div class="layers">
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
