@@ -29,7 +29,7 @@ h1:focus {
 }
 
 .navbar {
-    background-color: #007bff; /* Blue background */
+    background-color: rgba(0, 0, 0, 0.1); /* Blue background */
     color: white; /* White text */
     padding: 10px; /* Padding around the navbar */
     display: flex; /* Flexbox layout */
@@ -136,7 +136,7 @@ ul {
     display: grid; /* Change to grid layout */
     grid-template-columns: repeat(4, 1fr); /* Create 4 equal columns */
     background-color: rgba(238, 240, 255, 0.0);
-    height: 87vh;
+    height: 90vh;
     width: 92%;
     border-radius: 10px;
     position: absolute;
@@ -257,4 +257,31 @@ ul {
     color: black;
     align-content: space-around;
     border-radius: 10px;
+}
+
+.contacts-image{
+    width: 200px;
+}
+
+.nav-text {
+    font-family: Fantasy;
+    font-size: 80px;
+    color: #333; /* Default color */
+    cursor: pointer;
+    display: inline-block;
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+    .nav-text:hover {
+        color: #FFD700; /* Change to bright yellow on hover */
+        letter-spacing: 5px; /* Increase space between letters */
+    }
+
+    .nav-text.active {
+        color: #FFD700; /* Stay yellow when active */
+        letter-spacing: 5px; /* Maintain letter spacing */
+    }
+
+.contact-pad{
+
 }

@@ -2,8 +2,16 @@
 
 <nav class="navbar">
     <ul>
-        <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
-        <li><NavLink href="browse-projects">Browse Projects</NavLink></li>
+        <li>
+            <NavLink href="browse-projects" class="nav-link" @onclick="() => SetActive('p')">
+                <p class="nav-text @(activeLink == 'p' ? "active" : "")">ПРОЕКТИ</p>
+            </NavLink>
+        </li>
+        <li>
+            <NavLink href="contacts" class="nav-link" @onclick="() => SetActive('c')">
+                <p class="nav-text @(activeLink == 'c' ? "active" : "")">КОНТАКТИ</p>
+            </NavLink>
+        </li>
     </ul>
 </nav>
 
@@ -12,3 +20,12 @@
         @Body
     </div>
 </div>
+
+@code {
+    private char activeLink;
+
+    private void SetActive(char link)
+    {
+        activeLink = link;
+    }
+}
