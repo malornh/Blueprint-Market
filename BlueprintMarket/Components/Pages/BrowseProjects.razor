@@ -1,25 +1,28 @@
 ﻿@page "/browse-projects"
 @inject ProjectService ProjectService
 
-@code {
-    private List<ProjectService> projects;
-
-    protected override async Task OnInitializedAsync()
+<div class="pad">
+    @if (projects == null || !projects.Any())
     {
-        projects = ProjectService.GetProjects();
+        <p>Loading projects...</p>
     }
-}
-
-
-<div class="pad"> 
-    @foreach (var project in projects)
+    else
     {
-       <ProjectCard 
-        Name="@project.Name"
-        Description ="@project.Description"
-        Image="@project.Image"
-        Price="@project.Price"
-        />
+        @foreach (var project in projects)
+        {
+            <ProjectCard Name="@project.Name"
+                         Description="@project.Description"
+                         Image="@project.Image"
+                         Price="@project.Price" />
+        }
     }
 </div>
 
+@code {
+    private List<Project> projects; // Ensure this uses the correct type for your projects
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetProjectsAsync(); // Make sure you call the async version
+    }
+}

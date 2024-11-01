@@ -3,7 +3,9 @@ using BlueprintMarket.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ProjectService>();
+builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
+builder.Services.AddSingleton<ProjectService>(); 
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

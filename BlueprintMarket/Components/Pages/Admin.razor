@@ -1,0 +1,193 @@
+﻿@page "/admin"
+@inject ProjectService ProjectService
+@using Microsoft.AspNetCore.Components.Forms
+
+<div class="admin-pad">
+
+    @if (!isLoggedIn)
+    {
+        <EditForm Model="@formData" OnValidSubmit="@HandleValidSubmit" class="form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="password" class="form-label">Администраторска парола:</label>
+                <InputText id="password" @bind-Value="formData.Password" type="password" class="form-input" />
+                <ValidationMessage For="@(() => formData.Password)" class="validation-message" />
+            </div>
+
+            <button type="submit" class="btn">Вход</button>
+
+            @if (loginFailed)
+            {
+                <div class="alert alert-danger">
+                    Невалидна парола. Моля, опитайте отново.
+                </div>
+            }
+        </EditForm>
+    }
+    else
+    {
+        <button class="btn btn-primary" @onclick="ShowCreateProjectForm">Добавяне на нов проект</button>
+
+        <div class="projects-container">
+            @if (projects == null || !projects.Any())
+            {
+                <p>Зареждане на проекти...</p>
+            }
+            else
+            {
+                @foreach (var project in projects)
+                {
+                    <div class="project-card">
+                        <ProjectCard Name="@project.Name"
+                                     Description="@project.Description"
+                                     Image="@project.Image"
+                                     Price="@project.Price" />
+                        <div class="project-buttons">
+                            <button class="btn btn-edit" @onclick="() => EditProject(project)">Редактиране</button>
+                            <button class="btn btn-delete" @onclick="() => DeleteProject(project)">Изтриване</button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        @if (showCreateProject)
+        {
+            <div class="modal-overlay">
+                <div class="modal">
+                    <EditForm Model="@newProject" OnValidSubmit="@HandleCreateProject" class="form">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="name" class="form-label">Име на проекта:</label>
+                            <InputText id="name" @bind-Value="newProject.Name" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="form-label">Описание:</label>
+                            <InputText id="description" @bind-Value="newProject.Description" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="image" class="form-label">URL на изображение:</label>
+                            <InputText id="image" @bind-Value="newProject.Image" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="form-label">Цена:</label>
+                            <InputNumber id="price" @bind-Value="newProject.Price" class="form-input" />
+                        </div>
+
+                        <button type="submit" class="btn">Създаване на проект</button>
+                    </EditForm>
+                </div>
+            </div>
+        }
+
+        @if (showEditForm)
+        {
+            <div class="modal-overlay">
+                <div class="modal">
+                    <EditForm Model="@currentProject" OnValidSubmit="@HandleEditProject" class="form">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="editName" class="form-label">Име на проекта:</label>
+                            <InputText id="editName" @bind-Value="currentProject.Name" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="editDescription" class="form-label">Описание:</label>
+                            <InputText id="editDescription" @bind-Value="currentProject.Description" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="editImage" class="form-label">URL на изображение:</label>
+                            <InputText id="editImage" @bind-Value="currentProject.Image" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrice" class="form-label">Цена:</label>
+                            <InputNumber id="editPrice" @bind-Value="currentProject.Price" class="form-input" />
+                        </div>
+
+                        <button type="submit" class="btn">Актуализиране на проекта</button>
+                    </EditForm>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private AdminFormData formData = new AdminFormData();
+    private const string hardcodedPassword = "123"; // Промяна на паролата на желаната
+    private bool isLoggedIn = false;
+    private bool loginFailed = false;
+
+    // За управление на проектите
+    private List<Project> projects;
+    private Project newProject = new Project();
+    private Project currentProject;
+    private bool showCreateProject = false;
+    private bool showEditForm = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetProjectsAsync(); // Извличане на проектите асинхронно
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (formData.Password == hardcodedPassword)
+        {
+            isLoggedIn = true;
+            loginFailed = false;
+            LoadProjects(); // Зареждане на проектите след успешен вход
+        }
+        else
+        {
+            loginFailed = true;
+        }
+    }
+
+    private async void LoadProjects()
+    {
+        projects = await ProjectService.GetProjectsAsync(); // Обновяване на списъка с проекти
+    }
+
+    private void ShowCreateProjectForm()
+    {
+        showCreateProject = true;
+        newProject = new Project(); // Нулиране на формата за нов проект
+    }
+
+    private async Task HandleCreateProject()
+    {
+        await ProjectService.CreateProjectAsync(newProject);
+        showCreateProject = false;
+        LoadProjects(); // Обновяване на списъка с проекти
+    }
+
+    private void EditProject(Project project)
+    {
+        currentProject = project;
+        showEditForm = true;
+    }
+
+    private async Task HandleEditProject()
+    {
+        await ProjectService.UpdateProjectAsync(currentProject);
+        showEditForm = false;
+        LoadProjects(); // Обновяване на списъка с проекти
+    }
+
+    private async Task DeleteProject(Project project)
+    {
+        await ProjectService.DeleteProjectAsync(project.Id); // Предполага се, че имате Id свойство
+        projects.Remove(project); // Премахване на проекта от списъка
+    }
+
+    public class AdminFormData
+    {
+        public string Password { get; set; }
+    }
+}
