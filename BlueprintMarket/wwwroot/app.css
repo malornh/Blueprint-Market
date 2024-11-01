@@ -419,10 +419,12 @@ ul {
                 animation-fill-mode: forwards;
                 bottom: 0;
                 transform: translate(0, 100%);
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
             }
 
                 .animated-title > div.text-top div span:first-child {
                     color: #f1f1f1;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
                 }
 
         .animated-title > div.text-bottom {
@@ -435,6 +437,7 @@ ul {
                 animation-fill-mode: forwards;
                 top: 0;
                 transform: translate(0, -100%);
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
             }
 
 /* Admin Panel Styles */
